@@ -1,4 +1,4 @@
-# MkPFS Build Tool v1.16
+# MkPFS Build Tool v1.16b
 
 **Created by: Xenogear**
 
@@ -272,7 +272,10 @@ work_tmp\             Default temp work folder (auto created)
 
 ## 10. Version History
 
-### v1.16 (current)
+### v1.16b (current)
+- Fixed Unicode character encoding error in title names (™ ® © etc.)
+
+### v1.16
 - Drive root selection blocked for all folder pickers (output / temp / unpack)
 - Temp work folder cleanup default changed: `Enter`=keep, `y`=clear
 - Temp work folder must be empty when selected (error shown if not empty)
