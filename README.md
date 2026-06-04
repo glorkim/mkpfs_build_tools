@@ -6,6 +6,8 @@ A tool that compresses and unpacks PS5 game image files.
 Drag a folder or file to process it automatically.  
 Compression reduces file size by approximately **40~60%**.
 
+> Based on [MkPFS 0.0.5](https://github.com/PSBrew/MkPFS) by PSBrew.
+
 ---
 
 ## Table of Contents
