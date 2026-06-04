@@ -1,4 +1,4 @@
-# MkPFS Build Tool v1.16b
+# MkPFS Build Tool v1.20
 
 **Created by: Xenogear**
 
@@ -76,8 +76,8 @@ The window opens and conversion starts immediately.
 
 | Input | Output |
 |-------|--------|
-| Game folder (e.g. `PPSA04610-app\`) | `[Temp folder]` TITLEID-Title (Ver)**.pfs**<br>`[Output folder]` TITLEID-Title (Ver)**.ffpfsc** |
-| `.pfs` (folder image) | `[Output folder]` same name**.ffpfsc** |
+| Game folder (e.g. `PPSA04610-app\`) | `[Temp folder]` TITLEID-Title (Ver)\**pfs_image.dat**<br>`[Output folder]` TITLEID-Title (Ver)**.ffpfsc** |
+| `pfs_image.dat` | `[Output folder]` {parent-folder-name}**.ffpfsc** |
 | `.exfat` | `[Output folder]` same name**.ffpfsc** |
 | `.ffpkg` | `[Output folder]` same name**.ffpfsc** |
 | `.ffpfs` | `[Unpack folder]` {name}-extracted\ |
@@ -93,10 +93,10 @@ Dragging a folder triggers a two-step process.
 
 ```
 Input:  PPSA04610-app\
-Output: [Temp folder] PPSA04610-Elden Ring (01.10).pfs
+Output: [Temp folder] PPSA04610-Elden Ring (01.10)\pfs_image.dat
 ```
 
-The filename is generated automatically from `sce_sys\param.json`.
+The folder name is generated automatically from `sce_sys\param.json`.
 
 | param.json field | Example |
 |---|---|
@@ -109,7 +109,7 @@ The filename is generated automatically from `sce_sys\param.json`.
 ### Step 2: Pack into compressed PFS container
 
 ```
-Input:  [Temp folder]   PPSA04610-Elden Ring (01.10).pfs
+Input:  [Temp folder]   PPSA04610-Elden Ring (01.10)\pfs_image.dat
 Output: [Output folder] PPSA04610-Elden Ring (01.10).ffpfsc
 ```
 
@@ -121,29 +121,30 @@ After dragging a folder and pressing Enter, the output filename is shown before 
   Output name : PPSA04610-Elden Ring (01.10)
 ```
 
-### Reusing the .pfs file
+### Reusing pfs_image.dat
 
-The `.pfs` file is kept in the temp work folder after completion.  
-Drag it again to run **Step 2 only** and recreate the `.ffpfsc`.
+The `pfs_image.dat` is kept in the title folder inside the temp work folder after completion.  
+Drag it again to run **Step 2 only** and recreate the `.ffpfsc`.  
+The output name is determined by the parent folder name (title).
 
 ```
-Input:  PPSA04610-Elden Ring (01.10).pfs
+Input:  PPSA04610-Elden Ring (01.10)\pfs_image.dat
 Output: PPSA04610-Elden Ring (01.10).ffpfsc
 ```
 
 ### PFS file check on startup
 
-If `.pfs` files exist in the temp work folder at startup, they are listed.
+If title folders (containing `pfs_image.dat`) exist in the temp work folder at startup, they are listed.
 
 ```
   PFS file(s) found in temp work folder.: D:\work_tmp
 
-  PPSA04610-Elden Ring (01.10).pfs  (45.2 GB)
+  PPSA04610-Elden Ring (01.10)/pfs_image.dat  (45.2 GB)
 
   Delete? [Enter: keep / y: delete]:
 ```
 
-> When clearing leftover files, `.pfs` files are always preserved.
+> When clearing leftover files, title folders (`pfs_image.dat`) are always preserved.
 
 ---
 
@@ -152,7 +153,7 @@ If `.pfs` files exist in the temp work folder at startup, they are listed.
 **Folder compression**
 ```
 Input:  D:\PS5\PPSA04610-app\
-Temp:   D:\work_tmp\PPSA04610-Elden Ring (01.10).pfs
+Temp:   D:\work_tmp\PPSA04610-Elden Ring (01.10)\pfs_image.dat
 Output: D:\output\PPSA04610-Elden Ring (01.10).ffpfsc
 ```
 
@@ -162,9 +163,9 @@ Input:  D:\PS5\PPSA04610.exfat
 Output: D:\output\PPSA04610.ffpfsc
 ```
 
-**Re-compress .pfs**
+**Re-compress pfs_image.dat**
 ```
-Input:  D:\work_tmp\PPSA04610-Elden Ring (01.10).pfs
+Input:  D:\work_tmp\PPSA04610-Elden Ring (01.10)\pfs_image.dat
 Output: D:\output\PPSA04610-Elden Ring (01.10).ffpfsc
 ```
 
@@ -178,7 +179,7 @@ Output: D:\output\PPSA04610-Elden Ring (01.10)-extracted\
 
 ## 6. Temp Work Folder
 
-The temp work folder is used for Step 1 `.pfs` creation and mkpfs internals.
+The temp work folder is used for Step 1 `pfs_image.dat` creation and mkpfs internals.
 
 ### Changing the folder
 
@@ -254,7 +255,7 @@ A. Try running the program as Administrator.
 A. Enter `1` from the menu to switch the temp folder to a drive with more free space.  
 Folder compression needs free space equal to the input folder size.
 
-**Q. Can I delete the .pfs file after folder compression?**  
+**Q. Can I delete the pfs_image.dat after folder compression?**  
 A. Yes, once the `.ffpfsc` is created. However, keeping it lets you drag it again to skip Step 1 and quickly recreate the `.ffpfsc`.
 
 ---
@@ -272,7 +273,17 @@ work_tmp\             Default temp work folder (auto created)
 
 ## 10. Version History
 
-### v1.16b (current)
+### v1.20 (current)
+- Read param.json directly from pfs_image.dat
+- userDefinedParam editor added (game folder and pfs_image.dat)
+
+### v1.17
+- Temp folder structure changed to `{title}\pfs_image.dat` for ShadowMountPlus compatibility
+- `pfs_image.dat` drag support (runs Step 2 only)
+- Removed direct `.pfs` file compression support
+- Windows console forced to UTF-8, Unicode filename encoding error prevention added
+
+### v1.16b
 - Fixed Unicode character encoding error in title names (™ ® © etc.)
 
 ### v1.16
@@ -282,16 +293,12 @@ work_tmp\             Default temp work folder (auto created)
 
 ### v1.15
 - Two-step folder compression
-  - Step 1: Create uncompressed nested PFS image (`.pfs`)
+  - Step 1: Create uncompressed nested PFS image
   - Step 2: Pack into compressed PFS container (`.ffpfsc`)
 - Auto filename generation from `sce_sys\param.json` (`TITLEID-EnglishTitle (Version)`)
-- `.pfs` file drag support (runs Step 2 only)
 - Output filename preview before compression level selection
 - Auto disk space check against temp work folder before compression
-- Startup notification for existing `.pfs` files in temp work folder
-- `.pfs` files preserved when clearing temp work folder
 - `ESC` key support at all input prompts
-- Added `--no-adjust-output-file-extension` for explicit file extensions
 
 ### v1.13
 - Separate settings for output, temp work, and unpack folders
