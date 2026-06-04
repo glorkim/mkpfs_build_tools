@@ -49,6 +49,7 @@ You need the latest version of **ShadowMountPlus** to mount converted files on y
 ```
   0:  Set output folder   :  D:\output
   1:  Temp work folder    :  D:\work_tmp
+  2:  Edit userDefinedParam
   3:  Unpack folder       :  (auto - file location)
   99: Reset temp folder
 
@@ -60,6 +61,7 @@ You need the latest version of **ShadowMountPlus** to mount converted files on y
 |-------|----------|
 | `0`   | Change output folder |
 | `1`   | Change temp work folder |
+| `2`   | Edit userDefinedParam (game folder or pfs_image.dat) |
 | `3`   | Change unpack folder |
 | `99`  | Reset temp work folder setting |
 
@@ -69,6 +71,44 @@ Settings are saved automatically to `mkpfs_config.json`.
 
 Drag your game folder or file onto the `mkpfs_builds.exe` icon.  
 The window opens and conversion starts immediately.
+
+### Menu option 2 — Edit userDefinedParam
+
+Enter `2` from the main menu to edit `userDefinedParam` fields inside a game folder or `pfs_image.dat`.
+
+```
+  Drag game folder or pfs_image.dat: [drag here]
+
+  Reading param.json...
+
+  ──────────────────────────────────────────────────
+  titleId   : PPSA12345
+  titleName : Elden Ring
+  version   : 01.10
+  ──────────────────────────────────────────────────
+
+  1: userDefinedParam1 : 0
+  2: userDefinedParam2 : 0
+  3: userDefinedParam3 : 0
+  4: userDefinedParam4 : 0
+
+  Enter number to edit (Enter: save, ESC: cancel): 1
+  1: userDefinedParam1 : MyCustomValue
+
+  1: userDefinedParam1 : MyCustomValue
+  2: userDefinedParam2 : 0
+  ...
+
+  Enter number to edit (Enter: save, ESC: cancel): [Enter]
+  param.json patched successfully.
+```
+
+| Input | Behavior |
+|-------|----------|
+| Game folder | Reads and saves `sce_sys\param.json` directly |
+| `pfs_image.dat` | Reads via PFS internal API, patches in-place |
+
+> After editing `pfs_image.dat`, drag it again to recompress to `.ffpfsc` (Step 2 only).
 
 ---
 
