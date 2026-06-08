@@ -2,6 +2,10 @@
 
 **Created by: Xenogear**
 
+| CLI | GUI |
+|:---:|:---:|
+| ![CLI](cli_screen.png) | ![GUI](gui_screen.png) |
+
 An automated build tool using MkPFS that converts PS5 game images into compressed `.ffpfsc` format.  
 Drag a folder or file (`.exfat` `.ffpkg` `.rar` `.zip` `.7z` `.zip.001` `.7z.001` `pfs_image.dat` `.ffpfsc`) to process it automatically.  
 Compression reduces file size by approximately **40~60%**.  
