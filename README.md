@@ -1,4 +1,4 @@
-# MkPFS Build Tool v1.32
+# MkPFS Build Tool v1.33
 
 **Created by: Xenogear**
 
@@ -57,12 +57,12 @@ You need the latest version of **ShadowMountPlus** to mount converted files on y
    MkPFS - Auto Compress / Unpack
   --------------------------------------------------
    folder : PPSA04610-app\  ->  {title}/pfs_image.dat + TITLEID-Title (Ver).ffpfsc
-   archive: game.part01.rar / .zip / .7z  ->  TITLEID-Title (Ver).ffpfsc
+   archive: game.part01.rar / .zip / .7z  ->  {title}/pfs_image.dat + TITLEID-Title (Ver).ffpfsc
    file   : pfs_image.dat    ->  TITLEID-Title (Ver).ffpfsc
    file   : PPSA04610.exfat  ->  PPSA04610.ffpfsc
    file   : PPSA04610.ffpkg  ->  PPSA04610.ffpfsc
-   unpack : PPSA04610.ffpfsc ->  PPSA04610-extracted\
-          : pfs_image.dat    ->  PPSA04610-extracted\
+   unpack : PPSA04610.ffpfsc ->  PPSA04610\
+          : pfs_image.dat    ->  pfs_image\
   --------------------------------------------------
    mkpfs_builds -h : command CLI Help
   --------------------------------------------------
@@ -136,8 +136,8 @@ Enter `2` from the main menu to edit `userDefinedParam` fields inside a game fol
 | `pfs_image.dat` | `[Output folder]` TITLEID-Title (Ver)**.ffpfsc** |
 | `.exfat` | `[Output folder]` same name**.ffpfsc** |
 | `.ffpkg` | `[Output folder]` same name**.ffpfsc** |
-| `.ffpfsc` | `[Unpack folder]` {name}-extracted\ |
-| `pfs_image.dat` (unpack) | `[Unpack folder]` {name}-extracted\ (enter `2` at prompt) |
+| `.ffpfsc` | `[Unpack folder]` {name}\ |
+| `pfs_image.dat` (unpack) | `[Unpack folder]` {name}\ (enter `2` at prompt) |
 
 ---
 
@@ -350,7 +350,7 @@ Output: D:\output\PPSA04610-Elden Ring (01.10).ffpfsc
 **Unpack**
 ```
 Input:  D:\output\PPSA04610-Elden Ring (01.10).ffpfsc
-Output: D:\output\PPSA04610-Elden Ring (01.10)-extracted\
+Output: [Unpack folder]\PPSA04610-Elden Ring (01.10)\
 ```
 
 ---
@@ -452,7 +452,13 @@ work_tmp\             Default temp work folder (auto created)
 
 ## 10. Version History
 
-### v1.32 (current)
+### v1.33 (current)
+- Root-level archives supported: game files at the archive root (no wrapper folder) now build a correct `pfs_image.dat`
+- Default compression level changed to `5`
+- Update notification: shows a popup on launch if a newer version is available (CLI & GUI)
+- Both CLI (`mkpfs_builds.exe`) and GUI share the same engine and settings
+
+### v1.32
 - GUI version added (`mkpfs_gui.exe`)
 - Upgraded base to MkPFS 0.0.7
 - `.exfat` param.json userDefinedParam in-place editing support
