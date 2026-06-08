@@ -1,12 +1,14 @@
-# MkPFS Build Tool v1.20
+# MkPFS Build Tool v1.32
 
 **Created by: Xenogear**
 
-A tool that compresses and unpacks PS5 game image files.  
-Drag a folder or file to process it automatically.  
-Compression reduces file size by approximately **40~60%**.
+An automated build tool using MkPFS that converts PS5 game images into compressed `.ffpfsc` format.  
+Drag a folder or file (`.exfat` `.ffpkg` `.rar` `.zip` `.7z` `.zip.001` `.7z.001` `pfs_image.dat` `.ffpfsc`) to process it automatically.  
+Compression reduces file size by approximately **40~60%**.  
+Archived games (RAR / ZIP / 7z) can be built directly — no extraction required.  
+(param.json userDefinedParam can also be edited during the build process for archived games.)
 
-> Based on [MkPFS 0.0.5](https://github.com/PSBrew/MkPFS) by PSBrew.
+> Based on [MkPFS 0.0.7](https://github.com/PSBrew/MkPFS) by PSBrew.
 
 ---
 
@@ -15,7 +17,7 @@ Compression reduces file size by approximately **40~60%**.
 1. [Using on PS5](#1-using-on-ps5)
 2. [How to Use](#2-how-to-use)
 3. [Supported Formats](#3-supported-formats)
-4. [Folder Compression Details](#4-folder-compression-details)
+4. [Compression Details](#4-compression-details)
 5. [Conversion Examples](#5-conversion-examples)
 6. [Temp Work Folder](#6-temp-work-folder)
 7. [Advanced Usage (CLI)](#7-advanced-usage-cli)
@@ -47,9 +49,23 @@ You need the latest version of **ShadowMountPlus** to mount converted files on y
 4. Press `ESC` at any prompt to cancel.
 
 ```
+  --------------------------------------------------
+   MkPFS - Auto Compress / Unpack
+  --------------------------------------------------
+   folder : PPSA04610-app\  ->  {title}/pfs_image.dat + TITLEID-Title (Ver).ffpfsc
+   archive: game.part01.rar / .zip / .7z  ->  TITLEID-Title (Ver).ffpfsc
+   file   : pfs_image.dat    ->  TITLEID-Title (Ver).ffpfsc
+   file   : PPSA04610.exfat  ->  PPSA04610.ffpfsc
+   file   : PPSA04610.ffpkg  ->  PPSA04610.ffpfsc
+   unpack : PPSA04610.ffpfsc ->  PPSA04610-extracted\
+          : pfs_image.dat    ->  PPSA04610-extracted\
+  --------------------------------------------------
+   mkpfs_builds -h : command CLI Help
+  --------------------------------------------------
+
   0:  Set output folder   :  D:\output
   1:  Temp work folder    :  D:\work_tmp
-  2:  Edit userDefinedParam
+  2:  Edit param.json (userDefinedParam) : PPSAxxxxx-app\, pfs_image.dat, .exfat
   3:  Unpack folder       :  (auto - file location)
   99: Reset temp folder
 
@@ -61,20 +77,15 @@ You need the latest version of **ShadowMountPlus** to mount converted files on y
 |-------|----------|
 | `0`   | Change output folder |
 | `1`   | Change temp work folder |
-| `2`   | Edit userDefinedParam (game folder or pfs_image.dat) |
+| `2`   | Edit userDefinedParam (game folder, pfs_image.dat, or .exfat) |
 | `3`   | Change unpack folder |
 | `99`  | Reset temp work folder setting |
 
 Settings are saved automatically to `mkpfs_config.json`.
 
-### Method 2 — Drag directly onto the exe
-
-Drag your game folder or file onto the `mkpfs_builds.exe` icon.  
-The window opens and conversion starts immediately.
-
 ### Menu option 2 — Edit userDefinedParam
 
-Enter `2` from the main menu to edit `userDefinedParam` fields inside a game folder or `pfs_image.dat`.
+Enter `2` from the main menu to edit `userDefinedParam` fields inside a game folder, `pfs_image.dat`, or `.exfat`.
 
 ```
   Drag game folder or pfs_image.dat: [drag here]
@@ -117,19 +128,22 @@ Enter `2` from the main menu to edit `userDefinedParam` fields inside a game fol
 | Input | Output |
 |-------|--------|
 | Game folder (e.g. `PPSA04610-app\`) | `[Temp folder]` TITLEID-Title (Ver)\**pfs_image.dat**<br>`[Output folder]` TITLEID-Title (Ver)**.ffpfsc** |
-| `pfs_image.dat` | `[Output folder]` {parent-folder-name}**.ffpfsc** |
+| Archive (RAR / ZIP / 7z)<br>e.g. `game.part01.rar`, `game.zip`, `game.7z` | `[Temp folder]` TITLEID-Title (Ver)\**pfs_image.dat**<br>`[Output folder]` TITLEID-Title (Ver)**.ffpfsc** |
+| `pfs_image.dat` | `[Output folder]` TITLEID-Title (Ver)**.ffpfsc** |
 | `.exfat` | `[Output folder]` same name**.ffpfsc** |
 | `.ffpkg` | `[Output folder]` same name**.ffpfsc** |
-| `.ffpfs` | `[Unpack folder]` {name}-extracted\ |
 | `.ffpfsc` | `[Unpack folder]` {name}-extracted\ |
+| `pfs_image.dat` (unpack) | `[Unpack folder]` {name}-extracted\ (enter `2` at prompt) |
 
 ---
 
-## 4. Folder Compression Details
+## 4. Compression Details
+
+### Folder Compression
 
 Dragging a folder triggers a two-step process.
 
-### Step 1: Create uncompressed nested PFS image
+#### Step 1: Create uncompressed nested PFS image
 
 ```
 Input:  PPSA04610-app\
@@ -146,14 +160,14 @@ The folder name is generated automatically from `sce_sys\param.json`.
 
 > Falls back to the folder name if `param.json` is not found.
 
-### Step 2: Pack into compressed PFS container
+#### Step 2: Pack into compressed PFS container
 
 ```
 Input:  [Temp folder]   PPSA04610-Elden Ring (01.10)\pfs_image.dat
 Output: [Output folder] PPSA04610-Elden Ring (01.10).ffpfsc
 ```
 
-### Output name preview
+#### Output name preview
 
 After dragging a folder and pressing Enter, the output filename is shown before the compression level selection.
 
@@ -161,7 +175,7 @@ After dragging a folder and pressing Enter, the output filename is shown before 
   Output name : PPSA04610-Elden Ring (01.10)
 ```
 
-### Reusing pfs_image.dat
+#### Reusing pfs_image.dat
 
 The `pfs_image.dat` is kept in the title folder inside the temp work folder after completion.  
 Drag it again to run **Step 2 only** and recreate the `.ffpfsc`.  
@@ -172,7 +186,7 @@ Input:  PPSA04610-Elden Ring (01.10)\pfs_image.dat
 Output: PPSA04610-Elden Ring (01.10).ffpfsc
 ```
 
-### PFS file check on startup
+#### PFS file check on startup
 
 If title folders (containing `pfs_image.dat`) exist in the temp work folder at startup, they are listed.
 
@@ -188,11 +202,131 @@ If title folders (containing `pfs_image.dat`) exist in the temp work folder at s
 
 ---
 
+### Archive Compression (RAR / ZIP / 7z)
+
+Archives follow the same two-step process as folder compression.
+
+#### Step 1: Archive → uncompressed PFS image
+
+```
+Input:  game.part01.rar  (or game.zip / game.7z)
+Output: [Temp folder] PPSA04610-Elden Ring (01.10)\pfs_image.dat
+```
+
+Archive contents are **streamed directly** into the PFS image — no disk extraction required.
+
+> If `sce_sys/param.json` is not found inside the archive, the file is rejected as unsupported.
+
+> **Solid archives** (common in 7z) cannot be parallelized and must be read sequentially, which makes processing significantly slower. It is recommended to extract solid archives first and drag the resulting game folder instead.
+
+Before Step 1 begins, you choose the action to perform after it completes:
+
+```
+  --------------------------------------------------
+   Select action after Step 1 (pfs_image.dat creation)
+  --------------------------------------------------
+
+  0: compress to ffpfsc
+  1: edit param.json then compress to ffpfsc
+
+  Select action (default Enter = 0, ESC → cancel): 
+```
+
+#### Step 2: Pack into compressed PFS container
+
+Same as folder compression Step 2.
+
+```
+Input:  [Temp folder]   PPSA04610-Elden Ring (01.10)\pfs_image.dat
+Output: [Output folder] PPSA04610-Elden Ring (01.10).ffpfsc
+```
+
+#### param.json edit option
+
+If you selected `1` before Step 1, the editor opens automatically once Step 1 finishes.  
+After editing, you can re-open the editor or proceed to Step 2:
+
+```
+  Enter: proceed to compress  /  n: edit param.json  /  ESC: cancel
+```
+
+---
+
+### Edit param.json userDefinedParam
+
+`userDefinedParam` fields can be edited for game folders, `pfs_image.dat`, and `.exfat` files.
+
+**How to access**
+
+| Method | Input | Behavior |
+|--------|-------|----------|
+| Menu option `2` from the main screen | Game folder | Reads and saves `sce_sys\param.json` directly |
+| Menu option `2` from the main screen | `pfs_image.dat` | Patches PFS internal structure in-place |
+| Menu option `2` from the main screen | `.exfat` | Patches exFAT filesystem param.json in-place |
+| Select `1` before Step 1 (folder drag) | Game folder | Edits `sce_sys\param.json`, then proceeds to Step 1 → Step 2 |
+| Select `1` before Step 1 (archive drag) | RAR / ZIP / 7z | Runs Step 1, then edits the resulting `pfs_image.dat`, then Step 2 |
+
+**Editing process**
+
+```
+  Drag game folder or pfs_image.dat: [drag here]
+
+  Reading param.json...
+
+  ──────────────────────────────────────────────────
+  titleId   : PPSA12345
+  titleName : Elden Ring
+  version   : 01.10
+  ──────────────────────────────────────────────────
+
+  1: userDefinedParam1 : 0
+  2: userDefinedParam2 : 0
+  3: userDefinedParam3 : 0
+  4: userDefinedParam4 : 0
+
+  Enter number to edit (Enter: save, ESC: cancel): 1
+  1: userDefinedParam1 : MyCustomValue
+
+  Enter number to edit (Enter: save, ESC: cancel): [Enter]
+  param.json patched successfully.
+```
+
+**After editing via menu option 2**
+
+| Input edited | Next step |
+|---|---|
+| Game folder | Drag the folder again to compress (Step 1 → Step 2) |
+| `pfs_image.dat` | Drag it again to run **Step 2 only** and recreate the `.ffpfsc` |
+
+```
+Input:  PPSA04610-Elden Ring (01.10)\pfs_image.dat   ← edited
+Output: PPSA04610-Elden Ring (01.10).ffpfsc
+```
+
+---
+
 ## 5. Conversion Examples
 
 **Folder compression**
 ```
 Input:  D:\PS5\PPSA04610-app\
+Temp:   D:\work_tmp\PPSA04610-Elden Ring (01.10)\pfs_image.dat
+Output: D:\output\PPSA04610-Elden Ring (01.10).ffpfsc
+```
+
+**Archive compression (RAR / ZIP / 7z)**  
+Archives must contain a game folder structure (same as dragging a game folder directly).  
+Split archives are supported. Drag the file listed in the table below:
+
+| Format | Drag this file | Notes |
+|--------|---------------|-------|
+| RAR split | `game.part01.rar` | Remaining parts found automatically |
+| ZIP split (`.zip` + `.z01`) | `game.zip` | `.zip` is the last part; `.z01`, `.z02`... are the earlier parts |
+| ZIP split (`.zip.001`) | `game.zip.001` | First part |
+| 7z split | `game.7z.001` | First part |
+
+```
+Input:  D:\PS5\game.part01.rar  (or game.zip / game.zip.001 / game.7z.001)
 Temp:   D:\work_tmp\PPSA04610-Elden Ring (01.10)\pfs_image.dat
 Output: D:\output\PPSA04610-Elden Ring (01.10).ffpfsc
 ```
@@ -288,8 +422,9 @@ A. Larger games take more time. All CPU cores are used, so avoid heavy tasks dur
 A. Make sure the latest ShadowMountPlus payload is running.  
 Check that the converted file is placed in the ShadowMountPlus scan path.
 
-**Q. I'm getting an error.**  
-A. Try running the program as Administrator.
+**Q. I can't drag files or folders into the window.**  
+A. Running the program as Administrator disables drag-and-drop on Windows.  
+Run it as a normal user (double-click without "Run as Administrator").
 
 **Q. It says the temp work folder has insufficient space.**  
 A. Enter `1` from the menu to switch the temp folder to a drive with more free space.  
@@ -313,7 +448,25 @@ work_tmp\             Default temp work folder (auto created)
 
 ## 10. Version History
 
-### v1.20 (current)
+### v1.32 (current)
+- `.exfat` param.json userDefinedParam in-place editing support
+
+### v1.30
+- Upgraded base to MkPFS 0.0.7 (cross-drive hard link support)
+- ZIP / 7z archive drag support (`.zip`, `.zip.001`, `.7z`, `.7z.001`)
+- Compression level appended to output filename (e.g. `PPSA04610-Elden Ring (01.10)_L9.ffpfsc`)
+- Phase 2 status improved: shows archive format (RAR/RAR5/ZIP/7z), sequential or parallel processing
+- Confirmation prompt when existing `pfs_image.dat` would be overwritten
+- Elapsed time summary after completion (image / compress / total)
+- Folder/archive drag: choose action after Step 1 (compress to ffpfsc / edit param.json then compress)
+
+### v1.22
+- Split RAR drag support (`.rar` → `pfs_image.dat` → `.ffpfsc`)
+  - Streams RAR content directly into PFS image — no disk extraction required
+  - Filename generated from `sce_sys/param.json` inside the RAR
+  - Same two-step process and folder structure as game folder compression
+
+### v1.20
 - Read param.json directly from pfs_image.dat
 - userDefinedParam editor added (game folder and pfs_image.dat)
 
