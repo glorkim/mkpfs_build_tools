@@ -449,6 +449,8 @@ work_tmp\             Default temp work folder (auto created)
 ## 10. Version History
 
 ### v1.32 (current)
+- GUI version added (`mkpfs_gui.exe`)
+- Upgraded base to MkPFS 0.0.7
 - `.exfat` param.json userDefinedParam in-place editing support
 
 ### v1.30
