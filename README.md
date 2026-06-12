@@ -1,4 +1,4 @@
-# MkPFS Build Tool v1.37
+# MkPFS Build Tool v1.38
 
 **Created by: Xenogear**
 
@@ -454,7 +454,7 @@ work_tmp\             Default temp work folder (auto created)
 
 ## 10. Version History
 
-### v1.37 (current)
+### v1.38 (current)
 - Add game icon replacement on build (folder, rar/zip/7z, pfs_image.dat / .exfat)
   - Icon size is 512x512; dimensions are auto-adjusted
 - Add icon replacement to the param.json editor tab too
