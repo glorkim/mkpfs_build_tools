@@ -1,4 +1,4 @@
-# MkPFS Build Tool v1.40
+# MkPFS Build Tool v1.38
 
 **Created by: Xenogear**
 
