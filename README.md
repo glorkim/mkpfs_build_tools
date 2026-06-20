@@ -17,8 +17,6 @@ Just drag a folder or a file (`.exfat` `.ffpkg` `.rar` `.zip` `.7z` `.zip.001` `
 
 > ※ Everything runs without a separate extraction step, and the tool is optimized to make full use of your CPU and memory.
 
-**[ Download ]** https://github.com/glorkim/mkpfs_build_tools
-
 ---
 
 ## 🆕 What's new in v1.40 *(since v1.38)*
