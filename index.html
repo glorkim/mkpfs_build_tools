@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MkPFS Build Tool v1.40</title>
+<style>
+  :root{
+    --bg:#0d1017; --panel:#161b25; --panel2:#1c2230; --text:#e7ecf3;
+    --muted:#9aa6b6; --accent:#4f9dff; --accent2:#7c5cff; --line:#28303f;
+    --ok:#36d399;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 70% -10%,#1b2433 0,var(--bg) 60%);
+    color:var(--text); font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Malgun Gothic",sans-serif;
+  }
+  .wrap{max-width:860px; margin:0 auto; padding:48px 20px 80px}
+  header{text-align:center; margin-bottom:40px}
+  h1{font-size:2.4rem; margin:.2em 0; letter-spacing:-.5px}
+  .ver{display:inline-block; background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff; font-size:.95rem; font-weight:700; padding:.15em .7em; border-radius:999px; vertical-align:middle}
+  .by{color:var(--muted); margin-top:.3em}
+  .lead{font-size:1.15rem; color:#cdd6e3; max-width:640px; margin:18px auto 0}
+  .cta{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:28px 0 8px}
+  .btn{display:inline-block; padding:.7em 1.4em; border-radius:10px; font-weight:700; text-decoration:none;
+    border:1px solid var(--line); transition:.15s}
+  .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#fff; border:none}
+  .btn.primary:hover{filter:brightness(1.1)}
+  .btn.ghost{color:var(--text); background:var(--panel2)}
+  .btn.ghost:hover{border-color:var(--accent)}
+  .formats{color:var(--muted); font-size:.92rem; text-align:center; margin-top:6px}
+  .formats code{background:var(--panel2); padding:.1em .45em; border-radius:6px; margin:0 2px; color:#cfe0ff}
+  section{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:24px 26px; margin:22px 0}
+  h2{font-size:1.35rem; margin:.2em 0 .6em; display:flex; align-items:center; gap:.5em}
+  ul{margin:.4em 0; padding-left:1.2em}
+  li{margin:.35em 0}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .tab{background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin:14px 0}
+  .tab h3{margin:0 0 .3em; font-size:1.08rem}
+  .tab .new{font-size:.72rem; background:var(--ok); color:#04231a; padding:.05em .5em; border-radius:999px; font-weight:700; margin-left:.4em}
+  .tab p{margin:.2em 0 0; color:var(--muted); font-size:.92rem}
+  .note{color:var(--muted); font-size:.92rem}
+  footer{margin-top:34px; padding-top:22px; border-top:1px solid var(--line); color:var(--muted); font-size:.86rem}
+  footer a{color:var(--accent); text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  .gpl{background:var(--panel2); border-radius:10px; padding:14px 16px; margin-top:14px; font-size:.86rem}
+  pre{background:#0b0e14; border:1px solid var(--line); border-radius:10px; padding:14px 16px;
+    overflow-x:auto; font:13px/1.5 "SFMono-Regular",Consolas,"Liberation Mono",monospace; color:#cfe0ff}
+  code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+  section h3{font-size:1.05rem; margin:1.1em 0 .3em}
+  .sub{color:var(--muted); font-size:.92rem}
+  hr{border:none; border-top:1px solid var(--line); margin:30px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>MkPFS Build Tool <span class="ver">v1.40</span></h1>
+    <div class="by">by Xenogear</div>
+    <p class="lead">A Windows tool that automatically builds PS5 game images.
+      Just drag a folder or an archive and it is processed automatically.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/glorkim/mkpfs_build_tools">⬇ Download</a>
+      <a class="btn ghost" href="donate.html">♥ Donate</a>
+    </div>
+    <div class="formats">
+      Supports <code>.exfat</code> <code>.ffpkg</code> <code>.rar</code> <code>.zip</code>
+      <code>.7z</code> <code>.zip.001</code> <code>.7z.001</code> <code>pfs_image.dat</code> <code>.ffpfsc</code>
+    </div>
+  </header>
+
+  <section>
+    <h2>✨ Highlights</h2>
+    <ul>
+      <li>Output is about <strong>40–60% smaller</strong> after compression.</li>
+      <li>Compressed releases (RAR / ZIP / 7z) can be <strong>built directly without extracting first</strong>.</li>
+      <li>Edit the title ID, title name, icon, and userDefinedParam of a compressed game during the build.</li>
+      <li><strong>AMPR EMU games</strong> are supported with the auto-generated index included, even while still compressed.</li>
+    </ul>
+    <p class="note">※ Everything runs without a separate extraction step, and the tool is optimized to make full use of your CPU and memory.</p>
+  </section>
+
+  <section>
+    <h2>🆕 What's new in v1.40 <span class="note" style="font-weight:400">(since v1.38)</span></h2>
+    <ul>
+      <li><strong>Create exFAT / ffpkg images</strong> — a dedicated tab to build an unpacked image instead of ffpfsc. (No separate exFAT builder tool needed anymore!)</li>
+      <li><strong>exFAT Mount / Edit</strong> — connect an <code>.exfat</code> as a new drive and edit its files directly in Explorer.</li>
+      <li><strong>Build format choice</strong> — pick PFS / exFAT / ffpkg when building.</li>
+      <li><strong>ffpfsc info preview</strong> — check a game's name, version, and icon without unpacking.</li>
+      <li><strong>Richer info view</strong> — shows the full userDefinedParam with an icon preview.</li>
+      <li><strong>Add extra files at build time</strong> — pack your own files/folders into the image.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🗂 How each tab works</h2>
+    <p class="note">Listed in the same order as the tabs at the top of the program. If it's your first time, just follow along in order.</p>
+
+    <div class="tab">
+      <h3>⊞ Build — compress a game into ffpfsc</h3>
+      <p>The tab you'll use most. It turns a game into an <strong>ffpfsc file</strong> that you can load onto your PS5.</p>
+      <ul>
+        <li>Just <strong>drag &amp; drop</strong> a game folder or archive (RAR·ZIP·7z), <code>pfs_image.dat</code>, or <code>.exfat</code>.</li>
+        <li>You can drop RAR/ZIP/7z as-is, without extracting — it's handled automatically.</li>
+        <li>Choose the output type among <strong>PFS / exFAT / ffpkg</strong>. (If unsure, just leave it on the default exFAT.)</li>
+        <li>Compression level is 1–9, but <strong>level 5 is plenty.</strong> (Higher levels barely reduce size further.)</li>
+        <li>You can change the game name, version, and icon right during the build. (Drop an image to replace the icon.)</li>
+        <li><strong>Add extra files/folders</strong> — turn on "Include extra files/folders" and drop the files or folders you want; they are <strong>packed inside the image</strong> during the build. (e.g. newer backport files, fakelib, libSceAmpr.sprx, and other extras.)</li>
+        <li>Stack multiple games with <strong>[+ Add to queue]</strong> and <strong>build them all at once</strong>.</li>
+        <li>Output filenames are generated cleanly and automatically. Free disk space is also checked before building.</li>
+      </ul>
+    </div>
+
+    <div class="tab">
+      <h3>◇ Create exFAT/ffpkg <span class="new">NEW in v1.40</span></h3>
+      <p>Use this when you want to make an <strong>image (<code>.exfat</code> / <code>.ffpkg</code>)</strong> instead of a compressed file (ffpfsc).</p>
+      <ul>
+        <li>Drop a game folder or archive and an <code>.exfat</code> / <code>.ffpkg</code> file is created.</li>
+        <li>The filename is generated automatically as <code>TITLEID-Title (version).exfat</code>.</li>
+        <li>RAR/ZIP/7z archives skip the extract-then-rebuild step, so it's <strong>fast and uses almost no temporary space.</strong></li>
+        <li>This feature <strong>requires administrator rights, prompted once on first use.</strong></li>
+      </ul>
+    </div>
+
+    <div class="tab">
+      <h3>🖉 exFAT Mount/Edit <span class="new">NEW in v1.40</span></h3>
+      <p>Use this when you want to open the contents of an <code>.exfat</code> file and edit them directly in Explorer.</p>
+      <ul>
+        <li>Drop an <code>.exfat</code>, press <strong>[Connect drive]</strong>, and it's created/mounted as a new drive on your PC.</li>
+        <li>Add, remove, or edit files in Explorer, then</li>
+        <li>be sure to press <strong>[Dismount drive]</strong> so your changes are written back safely. (If you don't, they may be lost!)</li>
+        <li>If a drive won't dismount, you can release it from the <strong>[Dismount all virtual drives]</strong> button on the "Folder Settings" tab.</li>
+      </ul>
+    </div>
+
+    <div class="tab">
+      <h3>⊞ AMPR index</h3>
+      <p>A tab that creates only the <strong>index file (<code>ampr_emu.index</code>)</strong> needed by AMPR EMU games. (It's normally included automatically during a build, so use this only when you need to make one separately.)</p>
+      <ul>
+        <li>Drop a game folder, archive, <code>.exfat</code>, or <code>.ffpkg</code> to generate the index file.</li>
+        <li>For folders/archives it's created at that location; for <code>.exfat</code>/<code>.ffpkg</code> it's injected directly into the image.</li>
+        <li>Progress and remaining time are shown. An existing index is overwritten.</li>
+      </ul>
+    </div>
+
+    <div class="tab">
+      <h3>✎ Edit param.json — change game name &amp; icon</h3>
+      <p>A tab for changing game info such as <strong>name, version, and icon.</strong></p>
+      <ul>
+        <li>Edit the game ID, game name, and version right on screen.</li>
+        <li>On a Korean PS5, the Korean name is changed first.</li>
+        <li>Drop the image you want for the icon and it's replaced. Even if the size doesn't match, <strong>it's adjusted automatically.</strong></li>
+        <li>Works with any form: folder, archive, <code>pfs_image.dat</code>, or <code>.exfat</code>.</li>
+      </ul>
+    </div>
+
+    <div class="tab">
+      <h3>⊟ File Info / Unpack — ffpfsc info &amp; extraction</h3>
+      <p>Use this to <strong>preview which game a file is</strong>, or to <strong>unpack it into a folder (extract).</strong></p>
+      <ul>
+        <li>Just drop <code>.ffpfsc</code> / <code>pfs_image.dat</code> / <code>.exfat</code> / <code>.ffpkg</code>.</li>
+        <li>Shows the game ID, name, and version along with an <strong>icon preview</strong>.</li>
+        <li>For ffpfsc, you can check the game info and icon <strong>without unpacking</strong> the whole thing. (It's fast.)</li>
+        <li>The <strong>[Rename]</strong> button renames the ffpfsc file to match the game info.</li>
+      </ul>
+    </div>
+
+    <div class="tab">
+      <h3>⚙ Folder Settings</h3>
+      <p>A tab for setting the locations of folders you use often. Set once and it's remembered.</p>
+      <ul>
+        <li>Set the output folder, the working folder, and the unpack folder.</li>
+        <li>Also set the paths to OSFMount (used by exFAT features) and UFS2Tool (used for ffpkg) here.</li>
+        <li>If virtual drives are left mounted and won't release, the <strong>[Dismount all virtual drives]</strong> button releases them all at once.</li>
+      </ul>
+    </div>
+
+    <p class="note" style="margin-top:14px">※ Both Korean and English are supported, and you can work comfortably with drag &amp; drop. You're notified when a new version is out, and the files you create can be loaded onto your PS5 with ShadowMountPlus.</p>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>🛠 mkpfs-worker <span class="sub" style="font-weight:400">— bundled GPL CLI</span></h2>
+    <p>The build tool ships with <strong><code>mkpfs-worker.exe</code></strong>, a standalone GPL-3.0 CLI that
+      wraps the <a href="https://github.com/PSBrew/MkPFS">mkpfs</a> library. All PFS work is delegated to this
+      worker as a subprocess, so the GPL boundary stays inside the worker. This section documents the worker for
+      transparency and GPL compliance.</p>
+
+    <h3>Install</h3>
+    <pre>pip install -U "mkpfs"</pre>
+    <p class="sub">Requires <code>mkpfs</code> (installed automatically as a dependency).</p>
+
+    <h3>Build standalone exe</h3>
+    <pre>build_worker.bat</pre>
+    <p class="sub">Produces <code>dist/mkpfs-worker.exe</code> (PyInstaller, bundles <code>mkpfs</code>).</p>
+
+    <h3>Usage</h3>
+    <pre>mkpfs-worker -V                                   # version + license info
+mkpfs-worker pack folder &lt;src_dir&gt; &lt;image&gt; [...]   # passthrough to `mkpfs pack folder`
+mkpfs-worker pack file   &lt;src_file&gt; &lt;image&gt; [...]  # passthrough to `mkpfs pack file`
+mkpfs-worker verify      &lt;image&gt; [...]
+mkpfs-worker inspect     &lt;image&gt; --format json|text
+mkpfs-worker tree        &lt;image&gt;
+mkpfs-worker unpack      &lt;image&gt; &lt;out_dir&gt; [--overwrite]</pre>
+    <p class="sub">All <code>mkpfs</code> pack/verify/inspect/tree/unpack flags are forwarded as-is.</p>
+
+    <h3>Worker-only flags (pack/unpack)</h3>
+    <ul>
+      <li><code>--yes</code> — auto-confirm any overwrite prompt mkpfs would otherwise ask for interactively (useful when there's no attached console).</li>
+      <li><code>--stage-mode=copy-fallback</code> — for <code>pack file</code>, fall back to a plain file copy when hardlink/symlink staging fails (e.g. exFAT source drives).</li>
+    </ul>
+
+    <h3>Extra commands</h3>
+    <pre>mkpfs-worker probe-header &lt;path&gt;
+  -&gt; {"type": "pfs"} | {"type": "unknown"}
+
+mkpfs-worker read-member &lt;image&gt; &lt;rel_path&gt; [--as-json]
+  -&gt; raw bytes on stdout, or {"json": {...}} / {"data_base64": "..."}
+
+mkpfs-worker read-member-ffpfsc &lt;image&gt; &lt;rel_path&gt; [--as-json] [--with-member-name]
+  -&gt; read a member from a .ffpfsc (compressed PFS) via partial decode.
+     An unrecognised or malformed inner FS returns NOT_FOUND instead of crashing.
+     With --with-member-name the output is always JSON and also carries the
+     wrapped-image container name:
+       {"member": "pfs_image.dat", "json": {...}}        # JSON member
+       {"member": "...",           "data_base64": "..."}  # binary member (icon)
+     A miss returns exit 1 + {"error": "NOT_FOUND", "member": "..."} on stderr.
+
+mkpfs-worker probe-ffpfsc-compression &lt;image&gt; [--sample=N]
+  -&gt; {"member", "compressed", "logical_size" (uncompressed), "stored_size"
+      (compressed), "ratio", "block_size", "block_count", "dominant_flevel",
+      "level_bucket"}
+     Reports the inner image's PFSC compression: the zlib level is sampled and
+     only resolvable to a FLEVEL bucket ("0-1" / "2-5" / "6" / "7-9"), since zlib
+     does not preserve the exact 1-9 level. (mkpfs packs at level 7 -&gt; bucket "7-9".)
+
+mkpfs-worker check-space &lt;ffpfsc&gt; &lt;dest&gt; [--margin=&lt;percent&gt;]
+  -&gt; {"ok", "need", "need_with_margin", "free", "margin_percent", "shortfall"}
+     Checks whether &lt;dest&gt;'s drive has room to unpack the .ffpfsc. need = the
+     inner image's logical size; margin defaults to 3%. exit 0 if ok, 1 if not.
+     .ffpfsc only — other inputs return exit 2 + {"error": "NOT_FFPFSC"}.
+
+mkpfs-worker member-info &lt;image&gt; &lt;rel_path&gt;
+  -&gt; {"exists": bool, "alloc_bytes": int|None, "compressed": bool}
+
+mkpfs-worker patch-member &lt;image&gt; &lt;rel_path&gt; &lt;new_data_file&gt;
+  -&gt; {"ok": true} on success, or exit code 1 +
+     {"error": "TOO_LARGE"|"SIGNED"|"COMPRESSED"|"NOT_FOUND"|"NO_BLOCK_POINTER"}</pre>
+    <p class="sub"><code>read-member-ffpfsc</code>, <code>probe-ffpfsc-compression</code> and <code>check-space</code> are all
+      read-only. <code>patch-member</code> overwrites a file's payload in place within its existing allocated
+      blocks — it cannot grow a file past its current allocation, and it refuses signed or PFSC-compressed images/files.</p>
+
+    <h3>Relationship to upstream mkpfs</h3>
+    <p>This project is a <strong>downstream GPL extension of
+      <a href="https://github.com/PSBrew/MkPFS">PSBrew/MkPFS</a></strong> — effectively a fork in spirit, though
+      not a source fork. It does not copy the <code>mkpfs</code> source tree; it depends on the published
+      <code>mkpfs</code> package, re-exposes its <code>pack</code> / <code>verify</code> / <code>inspect</code> /
+      <code>tree</code> / <code>unpack</code> CLI as passthroughs, and adds new commands
+      (<code>probe-header</code>, <code>read-member</code>, <code>read-member-ffpfsc</code>,
+      <code>probe-ffpfsc-compression</code>, <code>check-space</code>, <code>member-info</code>,
+      <code>patch-member</code>) that build on mkpfs internals — notably the <code>.ffpfsc</code> partial-decode
+      reader, which randomly accesses PFSC-compressed images and walks the nested PFS / exFAT / UFS2 filesystem
+      inside them. Because the standalone exe bundles <code>mkpfs</code> and these commands are derived from its
+      internals, the whole thing is a derivative work and is distributed under the same GPL-3.0-or-later terms.</p>
+  </section>
+
+  <footer>
+    <div class="gpl">
+      <strong>License &amp; open-source notice.</strong> This tool bundles
+      <a href="https://github.com/glorkim/mkpfs_build_tools"><code>mkpfs-worker</code></a>,
+      a standalone CLI derived from
+      <a href="https://github.com/PSBrew/MkPFS">PSBrew/MkPFS</a> and licensed under
+      <strong>GPL-3.0-or-later</strong>. The complete corresponding source for the worker is available at the
+      <a href="https://github.com/glorkim/mkpfs_build_tools">project repository</a>.
+      The GUI/CLI front-end is a separate program that only invokes the worker as a subprocess.
+      Distributed WITHOUT ANY WARRANTY.
+    </div>
+    <p>© 2026 Xenogear · Based on MkPFS 0.0.8 by PSBrew</p>
+  </footer>
+
+</div>
+</body>
+</html>
