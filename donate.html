@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MkPFS Build Tool — 후원하기 / Support</title>
+<meta name="description" content="MkPFS Build Tool 개발 후원 페이지. PayPal로 후원할 수 있습니다.">
+<style>
+  :root{
+    --bg:#13151a;
+    --card:#1c1f27;
+    --card2:#232733;
+    --text:#e7e9ee;
+    --muted:#9aa0ad;
+    --accent:#4f9dff;
+    --accent2:#2b6fd6;
+    --gold:#ffc24b;
+    --border:#2c313d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"Segoe UI","Malgun Gothic",system-ui,-apple-system,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%,#1e2330 0%,var(--bg) 60%);
+    color:var(--text);
+    min-height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+    line-height:1.6;
+  }
+  .card{
+    position:relative;
+    width:100%;
+    max-width:560px;
+    background:linear-gradient(180deg,var(--card) 0%,#171a21 100%);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:40px 36px;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+  }
+  /* language toggle */
+  .lang{
+    position:absolute;
+    top:18px;
+    right:18px;
+    display:inline-flex;
+    background:var(--card2);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:3px;
+    font-size:12px;
+    font-weight:600;
+  }
+  .lang button{
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    padding:5px 13px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .12s ease,color .12s ease;
+    font-family:inherit;
+    font-weight:600;
+  }
+  .lang button.active{
+    background:var(--accent);
+    color:#fff;
+  }
+  .logo{
+    font-size:13px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  h1{
+    font-size:27px;
+    line-height:1.35;
+    margin-bottom:18px;
+    font-weight:700;
+    padding-right:96px;
+  }
+  .lead{
+    color:var(--muted);
+    font-size:15.5px;
+    margin-bottom:28px;
+  }
+  .heart{color:#ff6b81}
+  .btns{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+  .btn{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    text-decoration:none;
+    border-radius:12px;
+    padding:18px 22px;
+    font-size:16px;
+    font-weight:600;
+    transition:transform .12s ease,box-shadow .12s ease,background .12s ease;
+    border:1px solid transparent;
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(0)}
+  .btn .sub{font-size:12.5px;font-weight:500;opacity:.85;display:block;margin-top:2px}
+  .btn .left{display:flex;flex-direction:column;text-align:left}
+  .btn .amt{font-size:20px;font-weight:800}
+  .btn-primary{
+    background:linear-gradient(180deg,var(--accent) 0%,var(--accent2) 100%);
+    color:#fff;
+    box-shadow:0 8px 24px rgba(43,111,214,.35);
+  }
+  .btn-primary:hover{box-shadow:0 12px 30px rgba(43,111,214,.5)}
+  .btn-secondary{
+    background:var(--card2);
+    color:var(--text);
+    border:1px solid var(--border);
+  }
+  .btn-secondary:hover{background:#2a2f3c;border-color:#3a4150}
+  .btn-secondary .amt{color:var(--gold)}
+  .arrow{font-size:18px;opacity:.7}
+  .pp-mark{height:22px;width:auto;flex:none}
+  .btn .right{display:flex;align-items:center;gap:12px}
+  .pp-foot{height:18px;width:auto;vertical-align:middle}
+  .divider{
+    display:flex;align-items:center;gap:14px;
+    color:var(--muted);font-size:12px;
+    margin:22px 0 4px;
+  }
+  .divider::before,.divider::after{
+    content:"";flex:1;height:1px;background:var(--border);
+  }
+  .foot{
+    margin-top:30px;
+    padding-top:20px;
+    border-top:1px solid var(--border);
+    font-size:12.5px;
+    color:#6f7684;
+    text-align:center;
+  }
+  .secure{display:inline-flex;align-items:center;gap:6px;margin-top:6px}
+
+  /* language visibility — controlled by lang attr on <html> */
+  [data-en]{display:none}
+  html[lang="en"] [data-ko]{display:none}
+  html[lang="en"] [data-en]{display:revert}
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="lang" role="group" aria-label="Language">
+      <button id="btn-ko" type="button" onclick="setLang('ko')">KO</button>
+      <button id="btn-en" type="button" onclick="setLang('en')">EN</button>
+    </div>
+
+    <div class="logo">MkPFS Build Tool</div>
+
+    <h1 data-ko>개발을 응원해 주세요 <span class="heart">♥</span></h1>
+    <h1 data-en>Support the development <span class="heart">♥</span></h1>
+
+    <p class="lead" data-ko>
+      이 도구는 무료로 제공되며, 여러분의 후원은 새로운 기능 추가와
+      버그 수정, 그리고 꾸준한 업데이트에 큰 힘이 됩니다.
+      커피 한 잔의 후원이 개발자에게 큰 동기가 됩니다! ☕
+    </p>
+    <p class="lead" data-en>
+      This tool is free to use. Your support helps me keep adding new
+      features, fixing bugs, and maintaining regular updates.
+      Even a cup of coffee means a lot — thank you! ☕
+    </p>
+
+    <div class="btns">
+      <a class="btn btn-primary" href="https://www.paypal.com/ncp/payment/U49EP5JC5925J" target="_blank" rel="noopener">
+        <span class="left">
+          <span class="amt" data-ko>$5 후원하기</span>
+          <span class="amt" data-en>Donate $5</span>
+          <span class="sub" data-ko>커피 한 잔의 응원</span>
+          <span class="sub" data-en>Buy me a coffee</span>
+        </span>
+        <span class="right">
+          <svg class="pp-mark" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill="#fff" opacity=".55" d="M7.3 25.7l.6-3.8H4.5c-1 0-1.7-.9-1.5-1.9L5.6 3.6C5.8 2.6 6.7 1.9 7.7 1.9h7.6c3.7 0 6.3 2.4 5.7 6.1-.7 4.4-3.9 6.4-7.9 6.4h-2c-.5 0-1 .4-1.1.9l-1 6.4c-.1.5-.5.9-1.1.9H7.3z"/>
+            <path fill="#fff" d="M9.6 27l.6-3.9H6.8c-1 0-1.7-.9-1.5-1.9L7.9 4.9c.2-1 1-1.7 2-1.7h7.6c3.7 0 6.3 2.4 5.7 6.1-.7 4.4-3.9 6.4-7.9 6.4h-2c-.5 0-1 .4-1.1.9l-1 6.5c-.1.5-.5.9-1.1.9H9.6z"/>
+          </svg>
+          <span class="arrow">›</span>
+        </span>
+      </a>
+
+      <a class="btn btn-secondary" href="https://www.paypal.com/ncp/payment/39PR6UJGLDTPW" target="_blank" rel="noopener">
+        <span class="left">
+          <span class="amt" data-ko>직접 금액 입력</span>
+          <span class="amt" data-en>Custom amount</span>
+          <span class="sub" data-ko>원하는 만큼 후원하기</span>
+          <span class="sub" data-en>Choose your own amount</span>
+        </span>
+        <span class="right">
+          <svg class="pp-mark" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill="#009cde" d="M7.3 25.7l.6-3.8H4.5c-1 0-1.7-.9-1.5-1.9L5.6 3.6C5.8 2.6 6.7 1.9 7.7 1.9h7.6c3.7 0 6.3 2.4 5.7 6.1-.7 4.4-3.9 6.4-7.9 6.4h-2c-.5 0-1 .4-1.1.9l-1 6.4c-.1.5-.5.9-1.1.9H7.3z"/>
+            <path fill="#003087" d="M9.6 27l.6-3.9H6.8c-1 0-1.7-.9-1.5-1.9L7.9 4.9c.2-1 1-1.7 2-1.7h7.6c3.7 0 6.3 2.4 5.7 6.1-.7 4.4-3.9 6.4-7.9 6.4h-2c-.5 0-1 .4-1.1.9l-1 6.5c-.1.5-.5.9-1.1.9H9.6z"/>
+          </svg>
+          <span class="arrow">›</span>
+        </span>
+      </a>
+    </div>
+
+    <div class="divider">
+      <span data-ko>PayPal 보안 결제</span>
+      <span data-en>Secure checkout with PayPal</span>
+    </div>
+
+    <div class="foot">
+      <span data-ko>후원은 전적으로 자발적이며, 환불되지 않습니다.</span>
+      <span data-en>Donations are voluntary and non-refundable.</span>
+      <div class="secure">🔒 Powered by
+        <svg class="pp-foot" viewBox="0 0 101 32" xmlns="http://www.w3.org/2000/svg" aria-label="PayPal">
+          <path fill="#003087" d="M12.2 5.5H6.4c-.4 0-.7.3-.8.7L3.3 22.1c0 .3.2.5.5.5h2.8c.4 0 .7-.3.8-.7l.6-4c.1-.4.4-.7.8-.7h1.8c3.8 0 6-1.9 6.6-5.5.3-1.6 0-2.9-.7-3.7-.8-1-2.2-1.5-4.1-1.5zm.7 5.4c-.3 2.1-1.9 2.1-3.5 2.1h-.9l.6-3.9c0-.2.2-.4.5-.4h.4c1 0 2 0 2.5.6.3.4.4.9.3 1.6z"/>
+          <path fill="#003087" d="M30.3 10.8h-2.8c-.2 0-.4.2-.5.4l-.1.8-.2-.3c-.6-.9-2-1.2-3.3-1.2-3.1 0-5.7 2.3-6.3 5.6-.3 1.6.1 3.2 1 4.3.9 1 2.1 1.4 3.6 1.4 2.5 0 3.9-1.6 3.9-1.6l-.1.8c0 .3.2.5.5.5h2.5c.4 0 .7-.3.8-.7l1.5-9.8c0-.3-.2-.5-.5-.5zm-3.9 5.4c-.3 1.6-1.6 2.7-3.2 2.7-.8 0-1.5-.3-1.9-.8-.4-.5-.5-1.2-.4-2 .3-1.6 1.6-2.7 3.2-2.7.8 0 1.4.3 1.8.8.5.5.6 1.2.5 2z"/>
+          <path fill="#003087" d="M45.2 10.8h-2.8c-.3 0-.5.1-.7.4l-3.9 5.7-1.6-5.5c-.1-.3-.4-.6-.8-.6h-2.8c-.3 0-.5.3-.4.6l3.1 9-2.9 4.1c-.2.3 0 .7.4.7h2.8c.3 0 .5-.1.7-.4l9.3-13.4c.2-.3 0-.6-.6-.6z"/>
+          <path fill="#009cde" d="M54.6 5.5h-5.8c-.4 0-.7.3-.8.7l-2.3 14.9c0 .3.2.5.5.5h3c.3 0 .5-.2.6-.5l.7-4.2c.1-.4.4-.7.8-.7h1.8c3.8 0 6-1.9 6.6-5.5.3-1.6 0-2.9-.7-3.7-.8-1-2.2-1.5-4.1-1.5zm.7 5.4c-.3 2.1-1.9 2.1-3.5 2.1h-.9l.6-3.9c0-.2.2-.4.5-.4h.4c1 0 2 0 2.5.6.4.4.5.9.4 1.6z"/>
+          <path fill="#009cde" d="M72.7 10.8h-2.8c-.2 0-.4.2-.5.4l-.1.8-.2-.3c-.6-.9-2-1.2-3.3-1.2-3.1 0-5.7 2.3-6.3 5.6-.3 1.6.1 3.2 1 4.3.9 1 2.1 1.4 3.6 1.4 2.5 0 3.9-1.6 3.9-1.6l-.1.8c0 .3.2.5.5.5h2.5c.4 0 .7-.3.8-.7l1.5-9.8c0-.3-.2-.5-.5-.5zm-3.9 5.4c-.3 1.6-1.6 2.7-3.2 2.7-.8 0-1.5-.3-1.9-.8-.4-.5-.5-1.2-.4-2 .3-1.6 1.6-2.7 3.2-2.7.8 0 1.4.3 1.8.8.5.5.6 1.2.5 2z"/>
+          <path fill="#009cde" d="M76 5.9l-2.4 15c0 .3.2.5.5.5h2.4c.4 0 .7-.3.8-.7l2.3-14.9c0-.3-.2-.5-.5-.5h-2.7c-.2 0-.4.2-.4.6z"/>
+        </svg>
+      </div>
+    </div>
+  </main>
+
+<script>
+  function setLang(lang){
+    document.documentElement.setAttribute('lang', lang);
+    document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    try{ localStorage.setItem('donate_lang', lang); }catch(e){}
+  }
+  // default: saved choice → browser language → 'en'
+  (function(){
+    var saved;
+    try{ saved = localStorage.getItem('donate_lang'); }catch(e){}
+    var nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    var lang = saved || (nav.indexOf('ko') === 0 ? 'ko' : 'en');
+    setLang(lang);
+  })();
+</script>
+</body>
+</html>
