@@ -1,8 +1,7 @@
 ﻿{
-  "latest": "v1.38",
+  "latest": "v1.40",
   "force_update": false,
-  "assets": {
-    "mkpfs_gui.exe": "https://github.com/glorkim/mkpfs_build_tools/releases/download/v1.38/mkpfs_gui.exe",
-    "mkpfs_builds.exe": "https://github.com/glorkim/mkpfs_build_tools/releases/download/v1.38/mkpfs_builds.exe"
-  }
+  "notify_update": true,
+  "donate_popup_times": 1,
+  "zip": "https://github.com/glorkim/mkpfs_build_tools/releases/download/v1.40/mkpfs_build_tools_v1.40.zip"
 }
