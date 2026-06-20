@@ -1,166 +1,230 @@
-# MkPFS Build Tool — GUI Guide v1.38
+# MkPFS Build Tool `v1.40`
 
-**Created by: Xenogear**
+*by Xenogear*
 
-![GUI](gui_screen.png)
-
-A Windows GUI for converting PS5 game dumps into compressed `.ffpfsc` containers —
-with built-in `param.json` / icon editing and AMPR index generation.
-
-Everything is drag-and-drop. No file extraction to disk is required, and the tool
-uses all CPU cores during compression.
-
-> Based on [MkPFS 0.0.8](https://github.com/PSBrew/MkPFS) by PSBrew.
+![MkPFS Build Tool GUI](gui_screen.png)
 
 ---
 
-## Table of Contents
+A Windows tool that automatically builds PS5 game images.
 
-1. [Launch & Drag-and-Drop](#1-launch--drag-and-drop)
-2. [Tabs Overview](#2-tabs-overview)
-3. [Build Tab](#3-build-tab)
-4. [AMPR Index Tab](#4-ampr-index-tab)
-5. [param.json Edit Tab](#5-paramjson-edit-tab)
-6. [Unpack Tab](#6-unpack-tab)
-7. [Folder Settings Tab](#7-folder-settings-tab)
-8. [Supported Formats](#8-supported-formats)
-9. [Using on PS5](#9-using-on-ps5)
-10. [FAQ](#10-faq)
+Just drag a folder or a file (`.exfat` `.ffpkg` `.rar` `.zip` `.7z` `.zip.001` `.7z.001` `pfs_image.dat` `.ffpfsc`) and it is processed automatically.
 
----
+- Output is about **40–60% smaller** after compression.
+- Compressed releases (RAR / ZIP / 7z) can be **built directly without extracting first**.
+- During the build you can also edit the title ID, title name, icon, and userDefinedParam of a compressed game.
+- **AMPR EMU games** are supported with the auto-generated index included, even while still compressed.
 
-## 1. Launch & Drag-and-Drop
+> ※ Everything runs without a separate extraction step, and the tool is optimized to make full use of your CPU and memory.
 
-1. Double-click **`mkpfs_gui.exe`**.
-2. Drop a game folder or file onto the tab's drop zone (or click to browse).
-3. Press the action button on that tab.
-
-> **Do not run as Administrator.** Windows blocks drag-and-drop for elevated apps.
+**[ Download ]** https://github.com/glorkim/mkpfs_build_tools
 
 ---
 
-## 2. Tabs Overview
+## 🆕 What's new in v1.40 *(since v1.38)*
 
-| Tab | Purpose |
-|-----|---------|
-| **Build** | Folder / archive / image → compressed `.ffpfsc` (with a build queue) |
-| **AMPR Index** | Generate `ampr_emu.index` |
-| **param.json Edit** | Edit titleId / titleName / userDefinedParam + replace icon |
-| **Unpack** | Extract an image back to a folder |
-| **Folder Settings** | Output / temp / unpack folders, language |
-
----
-
-## 3. Build Tab
-
-Drop a **game folder**, **archive** (`.rar` `.zip` `.7z` `.zip.001` `.7z.001`),
-or an existing image (`pfs_image.dat` `.exfat` `.ffpkg` `.ffpfsc`), then
-**+ Add to queue** and **Build**.
-
-- Folder / archive → `pfs_image.dat` → `<title>.ffpfsc` (two-step, no disk extraction).
-- `pfs_image.dat` / `.exfat` / `.ffpkg` → compressed to `.ffpfsc` as-is.
-
-**Options**
-
-| Control | Effect |
-|---------|--------|
-| Compression level / CPU | Passed to the packer |
-| **Edit param.json** (checkbox) | Inline editor for titleId / titleName / userDefinedParam + icon box; applied at build time |
-| **Inject AMPR index** (checkbox) | Generates and injects `ampr_emu.index` during the build |
-
-Icon replacement: drop an image onto the icon box. It is letterboxed to 512×512
-and converted to BC7 DDS; both `icon0.png` and `icon0.dds` are replaced.
+- **Create exFAT / ffpkg images** — a dedicated tab to build a game as an unpacked `.exfat` / `.ffpkg` image instead of a compressed ffpfsc. **(No separate exFAT builder tool needed anymore!)**
+- **exFAT Mount / Edit** — connect an `.exfat` as a new drive and edit its files directly in Explorer.
+- **Build format choice** — pick PFS / exFAT / ffpkg when building.
+- **ffpfsc info preview** — check a game's name, version, and icon without unpacking.
+- **Richer info view** — shows the full userDefinedParam along with an icon preview.
+- **Add extra files at build time** — pack your own files/folders into the image during build/create.
 
 ---
 
-## 4. AMPR Index Tab
+## How each tab works
 
-Drop a **folder** or **archive** to generate `/app0/ampr_emu.index` used by the
-AMPR/fakelib file resolver.
+Listed in the same order as the tabs at the top of the program. If it's your first time, just follow along in order.
 
-| Input | Behavior |
-|-------|----------|
-| Folder | `ampr_emu.index` created **inside the folder** |
-| Archive | `ampr_emu.index` created **next to the archive** |
+### ⊞ Build — compress a game into ffpfsc
 
----
+The tab you'll use most. It turns a game into an **ffpfsc file** that you can load onto your PS5.
 
-## 5. param.json Edit Tab
+- Just **drag & drop** a game folder or archive (RAR·ZIP·7z), `pfs_image.dat`, or `.exfat`.
+- You can drop RAR/ZIP/7z as-is, without extracting — it's handled automatically.
+- Choose the output type among **PFS / exFAT / ffpkg**. (If unsure, just leave it on the default exFAT.)
+- Compression level is 1–9, but **level 5 is plenty.** (Higher levels barely reduce size further.)
+- You can change the game name, version, and icon right during the build. (Drop an image to replace the icon.)
+- **Add extra files/folders** — turn on "Include extra files/folders" and drop the files or folders you want; they are **packed inside the image** during the build. (e.g. newer backport files, fakelib, libSceAmpr.sprx, and other extras.)
+- Stack multiple games with **[+ Add to queue]** and **build them all at once**.
+- Output filenames are generated cleanly and automatically. Free disk space is also checked before building.
 
-Drop a **game folder**, **`pfs_image.dat`**, or **`.exfat`** to edit `titleId`,
-`titleName` (localized entry), and `userDefinedParam*`, and to replace the icon.
+### ◇ Create exFAT/ffpkg `NEW in v1.40`
 
-- **Edit fields** → **Save changes** writes back in place.
-- **Replace icon**: drop an image onto the icon box (applied on Save changes).
+Use this when you want to make an **image (`.exfat` / `.ffpkg`)** instead of a compressed file (ffpfsc).
 
-| Target | param.json | Icon |
-|--------|-----------|------|
-| Game folder | direct file write | full-resolution overwrite |
-| `pfs_image.dat` | in-place patch | in-place |
-| `.exfat` | in-place patch | in-place |
+- Drop a game folder or archive and an `.exfat` / `.ffpkg` file is created.
+- The filename is generated automatically as `TITLEID-Title (version).exfat`.
+- RAR/ZIP/7z archives skip the extract-then-rebuild step, so it's **fast and uses almost no temporary space.**
+- This feature **requires administrator rights, prompted once on first use.**
 
-> Signed images cannot be patched and are reported as such.
+### 🖉 exFAT Mount/Edit `NEW in v1.40`
 
----
+Use this when you want to open the contents of an `.exfat` file and edit them directly in Explorer.
 
-## 6. Unpack Tab
+- Drop an `.exfat`, press **[Connect drive]**, and it's created/mounted as a new drive on your PC.
+- Add, remove, or edit files in Explorer, then
+- be sure to press **[Dismount drive]** so your changes are written back safely. (If you don't, they may be lost!)
+- If a drive won't dismount, you can release it from the **[Dismount all virtual drives]** button on the "Folder Settings" tab.
 
-Drop **`.ffpfsc` / `.ffpfs` / `pfs_image.dat` / `.exfat`** to extract it to a folder.
+### ⊞ AMPR index
 
-| Input | Extractor |
-|-------|-----------|
-| `.ffpfsc` / `.ffpfs` / `pfs_image.dat` | mkpfs (PFS) |
-| `.exfat` | built-in exFAT parser |
+A tab that creates only the **index file (`ampr_emu.index`)** needed by AMPR EMU games. (It's normally included automatically during a build, so use this only when you need to make one separately.)
 
----
+- Drop a game folder, archive, `.exfat`, or `.ffpkg` to generate the index file.
+- For folders/archives it's created at that location; for `.exfat`/`.ffpkg` it's injected directly into the image.
+- Progress and remaining time are shown. An existing index is overwritten.
 
-## 7. Folder Settings Tab
+### ✎ Edit param.json — change game name & icon
 
-| Setting | Description |
-|---------|-------------|
-| Output folder | Where `.ffpfsc` is written |
-| Temp work folder | Used for `pfs_image.dat` creation (must be empty) |
-| Unpack folder | Default extraction location |
-| Language | Korean / English |
-| Compression level / CPU | Defaults for the build |
+A tab for changing game info such as **name, version, and icon.**
 
-Settings are saved to `mkpfs_config.json`.
+- Edit the game ID, game name, and version right on screen.
+- On a Korean PS5, the Korean name is changed first.
+- Drop the image you want for the icon and it's replaced. Even if the size doesn't match, **it's adjusted automatically.**
+- Works with any form: folder, archive, `pfs_image.dat`, or `.exfat`.
 
----
+### ⊟ File Info / Unpack — ffpfsc info & extraction
 
-## 8. Supported Formats
+Use this to **preview which game a file is**, or to **unpack it into a folder (extract).**
 
-| Extension | Filesystem | Notes |
-|-----------|-----------|-------|
-| `pfs_image.dat` | PFS (uncompressed) | Sony PlayStation File System |
-| `.ffpfsc` / `.ffpfs` | PFS (compressed) | Final build output |
-| `.exfat` | exFAT | Raw PS5 dump image |
-| `.ffpkg` | UFS2 | Compressed to `.ffpfsc` as input |
+- Just drop `.ffpfsc` / `pfs_image.dat` / `.exfat` / `.ffpkg`.
+- Shows the game ID, name, and version along with an **icon preview**.
+- For ffpfsc, you can check the game info and icon **without unpacking** the whole thing. (It's fast.)
+- The **[Rename]** button renames the ffpfsc file to match the game info.
 
----
+### ⚙ Folder Settings
 
-## 9. Using on PS5
+A tab for setting the locations of folders you use often. Set once and it's remembered.
 
-You need the latest **ShadowMountPlus** to mount converted files.
-
-> Download: [https://github.com/drakmor/ShadowMountPlus](https://github.com/drakmor/ShadowMountPlus)
-
-1. Copy the converted `.ffpfsc` to the ShadowMountPlus scan path.
-2. Run the ShadowMountPlus payload to mount automatically.
+- Set the output folder, the working folder, and the unpack folder.
+- Also set the paths to OSFMount (used by exFAT features) and UFS2Tool (used for ffpkg) here.
+- If virtual drives are left mounted and won't release, the **[Dismount all virtual drives]** button releases them all at once.
 
 ---
 
-## 10. FAQ
+> **※ Note** — Both Korean and English are supported, and you can work comfortably with drag & drop. You're notified when a new version is out, and the files you create can be loaded onto your PS5 with ShadowMountPlus.
 
-**Q. Drag-and-drop doesn't work.**
-A. Don't run as Administrator — Windows disables drag-and-drop for elevated apps.
+---
 
-**Q. The game is not recognized on PS5.**
-A. Make sure the latest ShadowMountPlus payload is running and the `.ffpfsc` is in
-its scan path.
+# mkpfs-worker (bundled GPL CLI)
 
-**Q. It says the temp work folder has insufficient space.**
-A. Switch the temp folder to a drive with more free space in Folder Settings.
+The build tool ships with **`mkpfs-worker.exe`**, a standalone GPL-3.0 CLI that
+wraps the [mkpfs](https://github.com/PSBrew/MkPFS) library. All PFS work is
+delegated to this worker as a subprocess, so the GPL boundary stays inside the
+worker. This section documents the worker for transparency and GPL compliance.
 
-**Q. Why is solid 7z slow?**
-A. Solid archives can't be parallelized. Extract first and drop the folder.
+## Build standalone exe
+
+```
+build_worker.bat
+```
+
+Produces `dist/mkpfs-worker.exe` (PyInstaller, bundles `mkpfs`).
+
+## Usage
+
+```
+mkpfs-worker -V                                  # version + license info
+mkpfs-worker pack folder <src_dir> <image> [...]  # passthrough to `mkpfs pack folder`
+mkpfs-worker pack file   <src_file> <image> [...] # passthrough to `mkpfs pack file`
+mkpfs-worker verify      <image> [...]
+mkpfs-worker inspect     <image> --format json|text
+mkpfs-worker tree        <image>
+mkpfs-worker unpack      <image> <out_dir> [--overwrite]
+```
+
+All `mkpfs` pack/verify/inspect/tree/unpack flags are forwarded as-is.
+
+### Worker-only flags (pack/unpack)
+
+- `--yes` — auto-confirm any overwrite prompt mkpfs would otherwise ask for
+  interactively (useful when there's no attached console).
+- `--stage-mode=copy-fallback` — for `pack file`, fall back to a plain file
+  copy when hardlink/symlink staging fails (e.g. exFAT source drives).
+
+### Extra commands
+
+```
+mkpfs-worker probe-header <path>
+  -> {"type": "pfs"} | {"type": "unknown"}
+
+mkpfs-worker read-member <image> <rel_path> [--as-json]
+  -> raw bytes on stdout, or {"json": {...}} / {"data_base64": "..."}
+
+mkpfs-worker read-member-ffpfsc <image> <rel_path> [--as-json] [--with-member-name]
+  -> read a member from a .ffpfsc (compressed PFS) via partial decode.
+     An unrecognised or malformed inner FS returns NOT_FOUND instead of crashing.
+     With --with-member-name the output is always JSON and also carries the
+     wrapped-image container name:
+       {"member": "pfs_image.dat", "json": {...}}        # JSON member
+       {"member": "...",           "data_base64": "..."}  # binary member (icon)
+     A miss returns exit 1 + {"error": "NOT_FOUND", "member": "..."} on stderr.
+
+mkpfs-worker probe-ffpfsc-compression <image> [--sample=N]
+  -> {"member", "compressed", "logical_size" (uncompressed), "stored_size"
+      (compressed), "ratio", "block_size", "block_count", "dominant_flevel",
+      "level_bucket"}
+     Reports the inner image's PFSC compression: the zlib level is sampled and
+     only resolvable to a FLEVEL bucket ("0-1" / "2-5" / "6" / "7-9"), since zlib does
+     not preserve the exact 1-9 level. (mkpfs packs at level 7 -> bucket "7-9".)
+
+mkpfs-worker check-space <ffpfsc> <dest> [--margin=<percent>]
+  -> {"ok", "need", "need_with_margin", "free", "margin_percent", "shortfall"}
+     Checks whether <dest>'s drive has room to unpack the .ffpfsc. need = the
+     inner image's logical size; margin defaults to 3%. exit 0 if ok, 1 if not.
+     .ffpfsc only — other inputs return exit 2 + {"error": "NOT_FFPFSC"}.
+
+mkpfs-worker member-info <image> <rel_path>
+  -> {"exists": bool, "alloc_bytes": int|None, "compressed": bool}
+
+mkpfs-worker patch-member <image> <rel_path> <new_data_file>
+  -> {"ok": true} on success, or exit code 1 + {"error": "TOO_LARGE"|"SIGNED"|"COMPRESSED"|"NOT_FOUND"|"NO_BLOCK_POINTER"}
+```
+
+`read-member-ffpfsc`, `probe-ffpfsc-compression` and `check-space` are all
+read-only.
+
+`patch-member` overwrites a file's payload in place within its existing
+allocated blocks — it cannot grow a file past its current allocation, and it
+refuses signed or PFSC-compressed images/files.
+
+## Relationship to upstream mkpfs
+
+This project is a **downstream GPL extension of [PSBrew/MkPFS](https://github.com/PSBrew/MkPFS)** —
+effectively a fork in spirit, though not a source fork. It does not copy the
+`mkpfs` source tree; it depends on the published `mkpfs` package, re-exposes its
+`pack` / `verify` / `inspect` / `tree` / `unpack` CLI as passthroughs, and adds
+new commands (`probe-header`, `read-member`, `read-member-ffpfsc`,
+`probe-ffpfsc-compression`, `check-space`, `member-info`, `patch-member`) that
+build on mkpfs internals — notably the `.ffpfsc` partial-decode reader, which
+randomly accesses PFSC-compressed images and walks the nested PFS / exFAT / UFS2
+filesystem inside them.
+
+Because the standalone exe bundles `mkpfs` and these commands are derived from
+its internals, the whole thing is a derivative work and is distributed under the
+same GPL-3.0-or-later terms.
+
+## License & public notice
+
+Copyright (C) 2026 xenogear. The bundled `mkpfs-worker` is licensed under
+**GPL-3.0-or-later** (see [LICENSE](LICENSE) and [NOTICE](NOTICE)).
+
+This is published as a public statement of GPL compliance:
+
+- **mkpfs-worker is a derivative work** of
+  [PSBrew/MkPFS](https://github.com/PSBrew/MkPFS) (GPL-3.0), which it bundles
+  and extends. As a derivative work it is distributed under the same
+  GPL-3.0-or-later terms.
+- The **complete corresponding source** for the worker — including any
+  distributed `mkpfs-worker.exe` build — is this repository:
+  <https://github.com/glorkim/mkpfs_build_tools>.
+- Upstream: MkPFS, © its respective authors, GPL-3.0,
+  <https://github.com/PSBrew/MkPFS>.
+- The MkPFS Build Tool's own GUI/CLI front-end is a separate program that only
+  invokes `mkpfs-worker` as a subprocess (mere aggregation); the GPL covers the
+  bundled worker, not the front-end.
+- This program is distributed in the hope that it will be useful, but
+  **WITHOUT ANY WARRANTY**; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+  Public License for more details.
