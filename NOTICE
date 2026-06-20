@@ -1,0 +1,29 @@
+mkpfs-worker
+Copyright (C) 2026 xenogear
+
+This program is a derivative work of MkPFS (https://github.com/PSBrew/MkPFS)
+and is published under the GNU General Public License v3.0 or later. The
+complete corresponding source for this program is available at:
+
+    https://github.com/glorkim/mkpfs-worker
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version. See LICENSE for the full text.
+
+--------------------------------------------------------------------
+
+This program depends on and bundles/invokes the `mkpfs` library at
+runtime:
+
+    Project:    MkPFS
+    Source:     https://github.com/PSBrew/MkPFS
+    Version:    0.0.8 (at time of writing; run `mkpfs-worker -V` for
+                the version actually installed)
+    License:    GNU General Public License v3.0 (GPL-3.0)
+
+mkpfs-worker exists specifically so that closed-source callers never
+need to `import mkpfs` directly: they invoke this tool as a separate
+subprocess and exchange CLI arguments / stdout / files, which is the
+GPL boundary this project is designed to sit on.
