@@ -2,7 +2,7 @@
 
 *by Xenogear*
 
-![MkPFS Build Tool GUI](gui_screen.png)
+![MkPFS Build Tool GUI](gui_screen.png?v=142)
 
 ---
 
