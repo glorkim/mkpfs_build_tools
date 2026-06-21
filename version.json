@@ -1,7 +1,7 @@
 {
-  "latest": "v1.43",
-  "force_update": false,
+  "latest": "v1.44",
+  "force_update": true,
   "notify_update": true,
   "donate_popup_times": 1,
-  "zip": "https://github.com/glorkim/mkpfs_build_tools/releases/download/v1.43/mkpfs_build_tools_v1.43.zip"
+  "zip": "https://github.com/glorkim/mkpfs_build_tools/releases/download/v1.44/mkpfs_build_tools_v1.44.zip"
 }
