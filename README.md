@@ -1,4 +1,4 @@
-# MkPFS Build Tool `v1.40`
+# MkPFS Build Tool `v1.42`
 
 *by Xenogear*
 
@@ -16,6 +16,15 @@ Just drag a folder or a file (`.exfat` `.ffpkg` `.rar` `.zip` `.7z` `.zip.001` `
 - **AMPR EMU games** are supported with the auto-generated index included, even while still compressed.
 
 > ※ Everything runs without a separate extraction step, and the tool is optimized to make full use of your CPU and memory.
+
+---
+
+## 🆕 What's new in v1.42
+
+- **CPU threads "0 (auto)" now uses all cores** — the previous 8-core auto cap is removed.
+- **CPU thread selector reflects your system's total core count.**
+- **Low-memory mode (recommended when multitasking)** — a new Build-tab option that prevents the sudden memory spikes which can freeze or close the program while you browse the web or run other apps during a build. Build speed is unchanged.
+- **Fixed exFAT image creation failing (COPY_FAIL)** when a game folder was used as input.
 
 ---
 
