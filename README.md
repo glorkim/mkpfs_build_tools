@@ -1,4 +1,4 @@
-# MkPFS Build Tool `v1.45.00`
+# MkPFS Build Tool `v1.44.02`
 
 *by Xenogear*
 
@@ -19,15 +19,7 @@ Just drag a folder or a file (`.exfat` `.ffpkg` `.rar` `.zip` `.7z` `.zip.001` `
 
 ---
 
-## 🆕 What's new in v1.45.00
-
-Added password support for encrypted archives (RAR / 7-Zip / ZIP)
-- Password prompt appears at drag-and-drop time and is reused for all subsequent operations.
-- Supports split archives (`.part01.rar`, `.zip.001`, `.7z.001`).
-
----
-
-## What's new in v1.44.02
+## 🆕 What's new in v1.44.02
 
 - **CPU threads "0 (auto)" now uses all cores** — the previous 8-core auto cap is removed.
 - **CPU thread selector reflects your system's total core count.**
