@@ -1,4 +1,4 @@
-# MkPFS Build Tool `v1.45.00`
+# MkPFS Build Tool `v1.45.01`
 
 *by Xenogear*
 
@@ -19,7 +19,7 @@ Just drag a folder or a file (`.exfat` `.ffpkg` `.rar` `.zip` `.7z` `.zip.001` `
 
 ---
 
-## 🆕 What's new in v1.45.00
+## 🆕 What's new in v1.45.01
 
 - **Password support for encrypted archives (RAR / 7-Zip / ZIP)** — build directly without extracting first. The password is entered once on drop and reused for every step.
 - **Cancel during image creation** — stops mid-build cleanly: terminates the work process tree, dismounts the virtual drive, and cleans up partial files.
