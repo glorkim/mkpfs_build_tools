@@ -1,4 +1,4 @@
-# MkPFS Build Tool `v1.45.01`
+# MkPFS Build Tool `v1.45.02`
 
 *by Xenogear*
 
@@ -16,6 +16,12 @@ Just drag a folder or a file (`.exfat` `.ffpkg` `.rar` `.zip` `.7z` `.zip.001` `
 - **AMPR EMU games** are supported with the auto-generated index included, even while still compressed.
 
 > ※ Everything runs without a separate extraction step, and the tool is optimized to make full use of your CPU and memory.
+
+---
+
+## 🆕 What's new in v1.45.02
+
+- **Filenames now use the game's content version (contentVersion)** — the correct game version is shown in filenames and paths instead of the master version.
 
 ---
 
