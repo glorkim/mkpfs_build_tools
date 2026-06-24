@@ -1,8 +1,8 @@
-# MkPFS Build Tool `v1.44.02`
+# MkPFS Build Tool `v1.45.00`
 
 *by Xenogear*
 
-![MkPFS Build Tool GUI](gui_screen.png?v=142)
+![MkPFS Build Tool GUI](gui_screen.png?v=145)
 
 ---
 
@@ -16,6 +16,14 @@ Just drag a folder or a file (`.exfat` `.ffpkg` `.rar` `.zip` `.7z` `.zip.001` `
 - **AMPR EMU games** are supported with the auto-generated index included, even while still compressed.
 
 > ※ Everything runs without a separate extraction step, and the tool is optimized to make full use of your CPU and memory.
+
+---
+
+## 🆕 What's new in v1.45.00
+
+- **Password support for encrypted archives (RAR / 7-Zip / ZIP)** — build directly without extracting first. The password is entered once on drop and reused for every step.
+- **Cancel during image creation** — stops mid-build cleanly: terminates the work process tree, dismounts the virtual drive, and cleans up partial files.
+- **Fixed a crash when packing games with non-ASCII titles** (e.g. "Ghost of Yōtei").
 
 ---
 
