@@ -24,6 +24,7 @@ Just drag a folder or a file (`.exfat` `.ffpkg` `.rar` `.zip` `.7z` `.zip.001` `
 - **Password support for encrypted archives (RAR / 7-Zip / ZIP)** — build directly without extracting first. The password is entered once on drop and reused for every step.
 - **Cancel during image creation** — stops mid-build cleanly: terminates the work process tree, dismounts the virtual drive, and cleans up partial files.
 - **Fixed a crash when packing games with non-ASCII titles** (e.g. "Ghost of Yōtei").
+- **Builds even when the game is nested in multiple subfolders inside an archive** — the game folder is detected automatically, no matter how deep.
 - **Filenames now use the game's content version (contentVersion)** — the correct game version is shown in filenames and paths instead of the master version.
 
 ---
