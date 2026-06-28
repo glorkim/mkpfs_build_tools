@@ -2,6 +2,8 @@
 
 *by Xenogear*
 
+[![Support me on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/xeno95176)
+
 ![MkPFS Build Tool GUI](gui_screen.png?v=145)
 
 ---
