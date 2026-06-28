@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MkPFS Build Tool — 후원하기 / Support</title>
+<meta name="description" content="MkPFS Build Tool 개발 후원 페이지. Ko-fi로 후원할 수 있습니다.">
+<style>
+  :root{
+    --bg:#13151a;
+    --card:#1c1f27;
+    --card2:#232733;
+    --text:#e7e9ee;
+    --muted:#9aa0ad;
+    --accent:#4f9dff;
+    --accent2:#2b6fd6;
+    --gold:#ffc24b;
+    --border:#2c313d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"Segoe UI","Malgun Gothic",system-ui,-apple-system,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%,#1e2330 0%,var(--bg) 60%);
+    color:var(--text);
+    min-height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+    line-height:1.6;
+  }
+  .card{
+    position:relative;
+    width:100%;
+    max-width:560px;
+    background:linear-gradient(180deg,var(--card) 0%,#171a21 100%);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:40px 36px;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+  }
+  /* language toggle */
+  .lang{
+    position:absolute;
+    top:18px;
+    right:18px;
+    display:inline-flex;
+    background:var(--card2);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:3px;
+    font-size:12px;
+    font-weight:600;
+  }
+  .lang button{
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    padding:5px 13px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .12s ease,color .12s ease;
+    font-family:inherit;
+    font-weight:600;
+  }
+  .lang button.active{
+    background:var(--accent);
+    color:#fff;
+  }
+  .logo{
+    font-size:13px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  h1{
+    font-size:27px;
+    line-height:1.35;
+    margin-bottom:18px;
+    font-weight:700;
+    padding-right:96px;
+  }
+  .lead{
+    color:var(--muted);
+    font-size:15.5px;
+    margin-bottom:28px;
+  }
+  .heart{color:#ff6b81}
+  .btns{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+  .btn{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    text-decoration:none;
+    border-radius:12px;
+    padding:18px 22px;
+    font-size:16px;
+    font-weight:600;
+    transition:transform .12s ease,box-shadow .12s ease,background .12s ease;
+    border:1px solid transparent;
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(0)}
+  .btn .sub{font-size:12.5px;font-weight:500;opacity:.85;display:block;margin-top:2px}
+  .btn .left{display:flex;flex-direction:column;text-align:left}
+  .btn .amt{font-size:20px;font-weight:800}
+  .btn-primary{
+    background:linear-gradient(180deg,var(--accent) 0%,var(--accent2) 100%);
+    color:#fff;
+    box-shadow:0 8px 24px rgba(43,111,214,.35);
+  }
+  .btn-primary:hover{box-shadow:0 12px 30px rgba(43,111,214,.5)}
+  .btn-primary.kofi{
+    background:linear-gradient(180deg,#ff6433 0%,#e0431a 100%);
+    box-shadow:0 8px 24px rgba(224,67,26,.35);
+  }
+  .btn-primary.kofi:hover{box-shadow:0 12px 30px rgba(224,67,26,.5)}
+  .kofi-mark{font-weight:800;font-size:18px;letter-spacing:.02em;color:#fff}
+  .kofi-foot{color:#ff6433;font-weight:700}
+  .btn-secondary{
+    background:var(--card2);
+    color:var(--text);
+    border:1px solid var(--border);
+  }
+  .btn-secondary:hover{background:#2a2f3c;border-color:#3a4150}
+  .btn-secondary .amt{color:var(--gold)}
+  .arrow{font-size:18px;opacity:.7}
+  .pp-mark{height:22px;width:auto;flex:none}
+  .btn .right{display:flex;align-items:center;gap:12px}
+  .pp-foot{height:18px;width:auto;vertical-align:middle}
+  .divider{
+    display:flex;align-items:center;gap:14px;
+    color:var(--muted);font-size:12px;
+    margin:22px 0 4px;
+  }
+  .divider::before,.divider::after{
+    content:"";flex:1;height:1px;background:var(--border);
+  }
+  .foot{
+    margin-top:30px;
+    padding-top:20px;
+    border-top:1px solid var(--border);
+    font-size:12.5px;
+    color:#6f7684;
+    text-align:center;
+  }
+  .secure{display:inline-flex;align-items:center;gap:6px;margin-top:6px}
+
+  /* language visibility — controlled by lang attr on <html> */
+  [data-en]{display:none}
+  html[lang="en"] [data-ko]{display:none}
+  html[lang="en"] [data-en]{display:revert}
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="lang" role="group" aria-label="Language">
+      <button id="btn-ko" type="button" onclick="setLang('ko')">KO</button>
+      <button id="btn-en" type="button" onclick="setLang('en')">EN</button>
+    </div>
+
+    <div class="logo">MkPFS Build Tool</div>
+
+    <h1 data-ko>개발을 응원해 주세요 <span class="heart">♥</span></h1>
+    <h1 data-en>Support the development <span class="heart">♥</span></h1>
+
+    <p class="lead" data-ko>
+      이 도구는 무료로 제공되며, 여러분의 후원은 새로운 기능 추가와
+      버그 수정, 그리고 꾸준한 업데이트에 큰 힘이 됩니다.
+      커피 한 잔의 후원이 개발자에게 큰 동기가 됩니다! ☕
+    </p>
+    <p class="lead" data-en>
+      This tool is free to use. Your support helps me keep adding new
+      features, fixing bugs, and maintaining regular updates.
+      Even a cup of coffee means a lot — thank you! ☕
+    </p>
+
+    <div class="btns">
+      <a class="btn btn-primary kofi" href="https://ko-fi.com/xeno95176" target="_blank" rel="noopener">
+        <span class="left">
+          <span class="amt" data-ko>Ko-fi에서 후원하기</span>
+          <span class="amt" data-en>Support me on Ko-fi</span>
+          <span class="sub" data-ko>커피 한 잔의 응원 ☕</span>
+          <span class="sub" data-en>Buy me a coffee ☕</span>
+        </span>
+        <span class="right">
+          <span class="kofi-mark">ko-fi</span>
+          <span class="arrow">›</span>
+        </span>
+      </a>
+    </div>
+
+    <div class="divider">
+      <span data-ko>Ko-fi 보안 결제</span>
+      <span data-en>Secure checkout with Ko-fi</span>
+    </div>
+
+    <div class="foot">
+      <span data-ko>후원은 전적으로 자발적이며, 환불되지 않습니다.</span>
+      <span data-en>Donations are voluntary and non-refundable.</span>
+      <div class="secure">🔒 Powered by <span class="kofi-foot">Ko-fi</span></div>
+    </div>
+  </main>
+
+<script>
+  function setLang(lang){
+    document.documentElement.setAttribute('lang', lang);
+    document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    try{ localStorage.setItem('donate_lang', lang); }catch(e){}
+  }
+  // default: saved choice → browser language → 'en'
+  (function(){
+    var saved;
+    try{ saved = localStorage.getItem('donate_lang'); }catch(e){}
+    var nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    var lang = saved || (nav.indexOf('ko') === 0 ? 'ko' : 'en');
+    setLang(lang);
+  })();
+</script>
+</body>
+</html>
